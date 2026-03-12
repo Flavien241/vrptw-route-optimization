@@ -1,9 +1,8 @@
 package io;
-import java.util.*;
 
 import model.Client;
-
 import java.io.*;
+import java.util.*;
 
 public class DataLoader {
 
@@ -14,19 +13,47 @@ public class DataLoader {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
 
         String line;
+        boolean readingClients = false;
 
         while ((line = br.readLine()) != null) {
 
-            if (line.trim().isEmpty())
+            line = line.trim();
+
+            if (line.startsWith("DATA_CLIENTS")) {
+                readingClients = true;
                 continue;
+            }
 
-            String[] parts = line.split("\\s+");
+            if (line.startsWith("DATA_DEPOTS")) {
+                continue;
+            }
 
-            int id = Integer.parseInt(parts[0]);
-            double x = Double.parseDouble(parts[1]);
-            double y = Double.parseDouble(parts[2]);
+            if (line.startsWith("d")) {
 
-            clients.add(new Client(id, x, y, 0, 0, 0));
+                String[] parts = line.split("\\s+");
+
+                int id = 0;
+                double x = Double.parseDouble(parts[1]);
+                double y = Double.parseDouble(parts[2]);
+                int ready = Integer.parseInt(parts[3]);
+                int due = Integer.parseInt(parts[4]);
+
+                clients.add(new Client(id, x, y, 0, ready, due));
+            }
+
+            if (readingClients && line.startsWith("c")) {
+
+                String[] parts = line.split("\\s+");
+
+                int id = Integer.parseInt(parts[0].substring(1));
+                double x = Double.parseDouble(parts[1]);
+                double y = Double.parseDouble(parts[2]);
+                int ready = Integer.parseInt(parts[3]);
+                int due = Integer.parseInt(parts[4]);
+                int demand = Integer.parseInt(parts[5]);
+
+                clients.add(new Client(id, x, y, demand, ready, due));
+            }
         }
 
         br.close();

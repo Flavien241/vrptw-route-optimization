@@ -29,6 +29,7 @@ public class Main {
             System.out.println("Instance : " + file);
 
             List<Client> clients = DataLoader.loadClients(folder + file);
+            System.out.println("Clients chargés : " + clients.size());
 
             Client depot = clients.get(0);
             clients.remove(0);
