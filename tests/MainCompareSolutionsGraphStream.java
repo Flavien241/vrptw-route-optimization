@@ -5,13 +5,14 @@ import model.Client;
 import model.Solution;
 import solver.RandomSolutionGenerator;
 import solver.SolutionBuilder;
-import solver.SolutionComparisonViewer;
+import solver.SolutionGraphStreamViewer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
-public class MainCompareSolutions {
+public class MainCompareSolutionsGraphStream {
 
     public static void main(String[] args) throws Exception {
 
@@ -38,6 +39,13 @@ public class MainCompareSolutions {
                 "Random #2"
         );
 
-        SolutionComparisonViewer.showComparison(solutions, titles, depot);
+        boolean fixedPositions;
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Positions fixes sur les coordonnees ? (y/n): ");
+            String answer = scanner.nextLine().trim().toLowerCase();
+            fixedPositions = answer.equals("y") || answer.equals("yes");
+        }
+
+        SolutionGraphStreamViewer.compareSolutions(solutions, titles, depot, fixedPositions);
     }
 }
