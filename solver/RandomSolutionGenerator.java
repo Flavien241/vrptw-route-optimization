@@ -16,13 +16,6 @@ public class RandomSolutionGenerator {
         // mélange aléatoire
         Collections.shuffle(shuffledClients);
 
-         // TEST : vérifier que l'ordre change
-    System.out.print("Ordre clients : ");
-    for (int i = 0; i < 50; i++) {
-        System.out.print(shuffledClients.get(i).id + " ");
-    }
-    System.out.println();
-
         Solution solution = new Solution();
 
         Route route = new Route();
